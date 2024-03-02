@@ -1,5 +1,5 @@
 # FDxboot - New 2024 World Fastest AVR MCU Bootloader
-## Universal - AVR109 (45.9kB/s write and 51.1kB/s read) -  STK500 (To be released next)
+## AVR109 (45.9kB/s write and 51.1kB/s read) -  STK500 (To be released next)
 
 ![FDxboot](https://github.com/flyandancexo/FDxboot/assets/66555404/83d59ccd-a65c-4e93-824f-3d62e073551f)
 
