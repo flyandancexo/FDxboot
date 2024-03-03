@@ -7,8 +7,6 @@
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include <avr/eeprom.h>
-
-#include "xFun.h"
  
 int main(void){
 
