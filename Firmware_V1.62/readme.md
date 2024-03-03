@@ -2,7 +2,7 @@
 
 A MCU with 16MHz can have a UART clock of 2Mbps, so maximum clock is with UART2XMODE enabled, whereas non-max mode is with UART2XMODE disabled, so max clock requires a more accurate system clock. V1.62 is still a beta version, but its write speed is very fast, probably the fastest on planet earth.
 
-##Note:
+## Note:
 All bootloader has a 1 second delay before going to application section, but first upload is free. You can use my script program to achieve auto-upload on a windows computer. 
 
 
