@@ -52,7 +52,7 @@ avrdude.exe -c avr109 -p m328p -b 500000  -P COM3 -U flash:w:"new.hex":i
 ```
 
 ## IDE-less 2.0:
-The bootloader works flawless with my IDE-less script program: 
+The bootloader works flawlessly with my IDE-less script program: 
 
 ```
 ===============================================================
