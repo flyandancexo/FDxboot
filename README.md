@@ -24,7 +24,7 @@ By fast, I really mean it. These are the top recorded speeds for my 3 bootloader
 | :--- | :--- | ---: | ---: |
 | **FDxboot 1.7 AVR109** | ATmega128 | **46.67 kB/s** | **50.37 kB/s** |
 | **FDxboot 2.12 STK500v2** | ATmega128 | **41.76 kB/s** | **35.66 kB/s** |
-| **FDxboot 3.x STK500v1** | ATmega128 | **40.17 kB/s** | **39.18 kB/s** |
+| **FDxboot 3.8 STK500v1** | ATmega128 | **40.17 kB/s** | **39.18 kB/s** |
 
 
 ## Main Features
@@ -94,16 +94,16 @@ Use this version with:
 Speeds are decimal kB/s. Results may vary with the MCU, Flash page size, baud rate, USB-to-serial adapter, operating system, and test-file size. The top advertised speed tests are done using 2Mbps with the CH340G chip. 
 
 
-### 1 Mbaud Speed Records
+### 1 Mbps Speed Records
 
 | Firmware | Test MCU | Write | Read |
 | :--- | :--- | ---: | ---: |
 | **FDxboot 1.7 AVR109** | ATmega16 | **22.38 kB/s** | **31.14 kB/s** |
 | **FDxboot 2.10 STK500v2** | ATmega16 | **21.70 kB/s** | **25.58 kB/s** |
-| **FDxboot 3.x STK500v1** | ATmega16 | **24.70 kB/s** | **27.55 kB/s** |
+| **FDxboot 3.8 STK500v1** | ATmega16 | **24.70 kB/s** | **27.55 kB/s** |
 | **FDxboot 1.7 AVR109** | ATmega128 | **40.17 kB/s** | **56.67 kB/s** |
 | **FDxboot 2.10 STK500v2** | ATmega128 | **34.50 kB/s** | **39.18 kB/s** |
-| **FDxboot 3.x STK500v1** | ATmega128 | **36.90 kB/s** | **41.22 kB/s** |
+| **FDxboot 3.8 STK500v1** | ATmega128 | **36.90 kB/s** | **41.22 kB/s** |
 
 
 ## Basic Setup
