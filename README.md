@@ -18,7 +18,7 @@ Size sometimes matters, depending on who you ask, but duration is more critical 
 | **FDxboot 3.80 STK500v1**  | 2 KiB | Simple STK500v1 compatibility with modern AVRDUDE versions |
 
 ## Top Speed Records at 2Mbps
-By fast, I really mean it. These are the top recorded speeds for my 3 bootloader firmwares. AVR109 is my original hand-coded firmware; STK500v2 and v1 are derived from AVR109 using the top AI model available today. Because AVR109 is a simpler protocol, its speed is faster, while I can fit the whole bootloader in using only 1k flash memory.
+By fast, I really mean it. These are the top recorded speeds for my 3 bootloader firmwares. AVR109 is my original hand-coded firmware; STK500v2 and v1 are derived from AVR109 using the top AI model available today. Because AVR109 is a simpler protocol, its speed is faster, while I still can fit the whole bootloader in using only 1k flash memory.
 
 | Firmware | Test MCU | Write | Read |
 | :--- | :--- | ---: | ---: |
