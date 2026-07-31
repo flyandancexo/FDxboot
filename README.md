@@ -1,127 +1,153 @@
-# FDxboot - New 2024 World Fastest AVR MCU Bootloader
-## AVR109 (45.9kB/s write and 51.1kB/s read) -  STK500 (To be released next)
+# FDxboot: High-Speed 3-in-1 Bootloaders for AVR MCUs
 
-![FDxboot](https://github.com/flyandancexo/FDxboot/assets/66555404/83d59ccd-a65c-4e93-824f-3d62e073551f)
+**FDxboot** is a family of compact, high-speed UART bootloaders for AVR MCUs. Three firmware choices are provided so the same project can be used with **AVR109**, **STK500v2**, or **STK500v1** host support. Each version is designed for fast development uploads, simple configuration, and reliable operation across common AVR Flash sizes.
 
-A bootloader can actually be anything, but it's normally used as a means for the MCU to program itself via various input sources such as UART, SPI, I2C and etc. UART is ideal because it's relatively simple and fast.
+<p align="center">
+  <img src="img/FDxBoot.png" alt="FDxBoot" width="100%">
+</p>
 
-An AVR MCU has built-in flash memory that can be separated into 2 sections: Application and Bootloader; The CPU level SPM instruction can only be run on the bootloader section, so self-program code can only be resided in the bootloader section. An 8kB MCU can have a bootloader size from 256 bytes to 2K bytes, and this is configured by its LOW and HIGH fuses. To sum up, a MCU with bootloader is like having 2 mini operational systems on one chip.
+## 3 Bootloader Firmware
 
-Note: 45.1kB/s is about 45,100 bytes per second. It's the fastest write speed on any known AVR MCU bootloader.
+Size sometimes matters, depending on who you ask, but duration is more critical in my humble opinion. You want to get things done, and done quickly, so my bootloader is larger in size, but much much faster in duration. It's a trade off that you need to take. You can't have both. My bootloader are most-definitely the world's fastest in its class.
 
-## Features for FDxboot v1.62 (AVR109):
-- 1k bootloader with the fastest upload speed (see table below)
-- Universally support all MCUs using UART as default data input
-- Auto jump to application after a delay period, so auto-upload is supported
-- Stable at 2Mbps using a Ch340 USB-to-Serial converter chip
-- loosely based on AVR109, tested on AVRdude 6.3 and 7.0
-- Highly optimized over and over again
-- EEPROM read and write are not supported yet
 
-## FDxboot V1.62 Speed Test Results - Loosely based on AVR109
-| Baud Rate | MCU | Page Size | File Size | Write Time | Upload Speed | Read Time | Download Speed |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **2Mbps** | Atmega128 | 256 | 129,998 | 2.83s | **45,935 B/s** | 2.54s | **51,180 B/s** | 
-| 1Mbps | Atmega128 | 256 | 129,998 | 3.36s | 38,689 B/s | 3.05s | 42,622 B/s | 
-| 500kbps | Atmega128 | 256 | 129,998 | 4.57s | 28,445 B/s | 4.07s | 31,940 B/s | 
-| **2Mbps** | Atmega328p | 128 | 31,736 | 1.20s | **26,446 B/s** | 0.99s | **32,056 B/s** | 
-| 1Mbps | Atmega328p | 128 | 31,736 | 1.37s | 23,164 B/s | 0.99s | 32,056 B/s | 
-| 500kbps | Atmega328p | 128 | 31,736 | 1.63s | 19,469 B/s | 1.24s | 25,593 B/s | 
-| **2Mbps** | Atmega16 | 128 | 15,352 | 0.57s | **26,933 B/s** | 0.48s | **31,983 B/s** | 
-| 1Mbps | Atmega16 | 128 | 15,352 | 0.65s | 23,618 B/s | 0.48s | 31,983 B/s | 
-| 500kbps | Atmega16 | 128 | 15,352 | 0.77s | 19,937 B/s | 0.6s | 25,586 B/s | 
-| **2Mbps** | Atmega88 | 64 | 6,102 | 0.43s | **14,190 B/s** | 0.29s | **21,041 B/s** | 
-| 1Mbps | Atmega88 | 64 | 6,102 | 0.43s | 14,190 B/s | 0.29s | 21,041 B/s | 
-| 500kbps | Atmega88 | 64 | 6,102 | 0.48s | 12,712 B/s | 0.39s | 15,646 B/s | 
+| Firmware  |  Bootloader Size | Best Use |
+| :---  | :---: | :--- |
+| **FDxboot 1.73 AVR109**  | 1 KiB | Highest confirmed transfer speed and smallest boot section |
+| **FDxboot 2.12 STK500v2**  | 2 KiB | Packet-based host communication and STK500v2 compatibility |
+| **FDxboot 3.80 STK500v1**  | 2 KiB | Simple STK500v1 compatibility with modern AVRDUDE versions |
 
-## Features for FDxboot v2.x (STK500 to be released next):
+## Top Speed Records at 2Mbps
+By fast, I really mean it. These are the top recorded speeds for my 3 bootloader firmwares. AVR109 is my original hand-coded firmware; STK500v2 and v1 are derived from AVR109 using the top AI model available today. Because AVR109 is a simpler protocol, its speed is faster, while I can fit the whole bootloader in using only 1k flash memory.
 
-## Potential Problems:
-The USB cable and USB port can be very critical. The same cable works on other USB transfers may not work with AVRdude because AVRdude is actually a very primitive application without any error detection or recovery, so if one bit is corrupted during transfer, the whole upload is corrupted and it's very common to see error messages or out of sync problem with AVRdude. My bootloader is **highly optimized** and has been fully tested without any error on my antique PC whatsoever even with a CH340g at 2Mbps, and as a matter of fact, all the tests done were using a Ch340G, but if it's used on a USB hub with a lot of activity, then upload error is very normal, and it may not even work at all, but this is not the fault of my bootloader nor is there a bug in my bootloader. You are free to use other slower or more "stable" bootloader, and there are plenty to choose from. 
+| Firmware | Test MCU | Write | Read |
+| :--- | :--- | ---: | ---: |
+| **FDxboot 1.7 AVR109** | ATmega128 | **46.67 kB/s** | **50.37 kB/s** |
+| **FDxboot 2.12 STK500v2** | ATmega128 | **41.76 kB/s** | **35.66 kB/s** |
+| **FDxboot 3.x STK500v1** | ATmega128 | **40.17 kB/s** | **39.18 kB/s** |
 
-## How to Use:
-1. Set the correct Fuses: 1k BOOTSZx and BOOTRST;
-2. Upload the correct bootloader firmware to the MCU
-3. Set lock fuse to 0xef
-4. Use the following commands to send new code to the MCU
 
-```
-avrdude.exe -c avr109 -p m328p -b 2000000 -P COM3 -U flash:w:"new.hex":i
-avrdude.exe -c avr109 -p m328p -b 1000000 -P COM3 -U flash:w:"new.hex":i
-avrdude.exe -c avr109 -p m328p -b 500000  -P COM3 -U flash:w:"new.hex":i
-```
+## Main Features
+- Three protocol choices for different host workflows
+- Universal source selection for common and large-memory AVR MCUs
+- Configuration kept in one header file
+- Fast buffered Flash writing and verification
+- Automatic startup into the application after the bootloader session
+- Selectable serial speeds from 2 Mbaud down to 3,906 baud
+- Compile-time baud validation and automatic UART timing-mode selection
+- Optional oscillator calibration and status LEDs
+- Compatible with AVRDUDE and the Z-FDxAVRC IDE-Less V1.13 workflow
 
-## IDE-less 2.0:
-The bootloader works flawlessly with my IDE-less script program: 
+<p align="center">
+  <img src="img/FDxboot.jpg" alt="FDxboot" width="100%">
+</p>
 
-```
-===============================================================
-  Flyandance Advanced 8-bit AVR Compile and Upload UNI 2.0:
-===============================================================
-     << C Project:Juno_V4   ||   MCU:atmega88 >>
----------------------------------------------------------------
-Compiling 3 source files:
-V4DEV.c v4LCD.c V4_Main.c
-===============================================================
-=====>>              Compiling and Linking              <<=====
-===============================================================
+## FDxboot 1.73 AVR109
 
-   <Project:Juno_V4> compiled Successfully! :)
-   -------------------------------------------------------
-   text    data     bss     dec     hex filename
-   7082       0       6    7088    1bb0 Juno_AVR.elf
-   -------------------------------------------------------
-   <Juno_V4.hex> can be found here:
-   C:\E-Dream\Project\Juno_V4\Output\
+<img src="img/FDxboot_1.73_AVR109.png" alt="FDxboot 1.73 AVR109 speed test" width="500" align="left">
 
-***************************************************************
->>>>>>>>           Upload Via butterfly           >>>>>>>>
-***************************************************************
+FDxboot 1.73 is the primary high-speed version. It uses AVR109 and is the best choice when minimum bootloader size and maximum transfer speed are the priorities.
 
-Connecting to programmer: .
-Found programmer: Id = "FDxBoot"; type = S
-    Software Version = 1.6; No Hardware Version given.
-Programmer supports buffered memory access with buffersize=64 bytes.
+The universal source supports common AVR MCUs through one configuration header. Select the MCU memory group, CPU clock, bootloader size, baud rate, oscillator calibration, and optional status LEDs without editing the main source file.
 
-Programmer supports the following devices:
+Use this version with:
 
-avrdude.exe: AVR device initialized and ready to accept instructions
-
-Reading | ################################################## | 100% 0.00s
-
-avrdude.exe: Device signature = 0x1e930a (probably m88)
-avrdude.exe: NOTE: "flash" memory has been specified, an erase cycle will be per
-formed
-             To disable this feature, specify the -D option.
-avrdude.exe: erasing chip
-avrdude.exe: reading input file "Juno_V4.hex"
-avrdude.exe: writing flash (7082 bytes):
-
-Writing | ################################################## | 100% 0.56s
-
-avrdude.exe: 7082 bytes of flash written
-avrdude.exe: verifying flash memory against Juno_V4.hex:
-
-Reading | ################################################## | 100% 0.29s
-
-avrdude.exe: 7082 bytes of flash verified
-
-avrdude.exe done.  Thank you.
-
-***************************************************************
-*****                 Upload Successfully                 *****
-***************************************************************
+```text
+-c avr109 or -c butterfly
 ```
 
-## More about Transfer Speed:
-The absolute write speed for a 128-byte page MUC is 128/0.0045=28,444 B/s, and FDxboot V1.62 has achieved 26,446 B/s; On the other hand, the absolute write speed for a 64-byte page MUC is 64/0.0045=14,222 B/s, and FDxboot V1.62 has achieved 14,190 B/s. It's very close to unity. Read speed doesn't have any limit, but to make it stable at 2Mbps, FDxboot actually adds some delay to it, so it's stable at 2Mbps even using a CH340g. All the tests are done using a CH340g; Other USB-to-serial chip could be faster on the read speed, but probably not on the write speed. 
+<br clear="left">
 
-## Why faster is better:
-1. For serious MCU developers, a faster bootloader allows him or her to upload more frequently.
-2. A bootloader's only job is to upload and download, so its speed defines its quality.
-3. Ultimately the creation of FDxboot is to test my understanding and have some fun.
+## FDxboot 2.12 STK500v2
 
-To support the creation of more quality project, do donate whatever amount that you are comfortable with.
+<img src="img/FDxboot_2.12_STK500v2.png" alt="FDxboot 2.12 STK500v2 speed test" width="500" align="left">
+
+FDxboot 2.12 provides the same general bootloader design with STK500v2 host communication. It is intended for users who prefer STK500v2 support while keeping the firmware compact and fast.
+
+The normal and large-memory configurations are combined in one source package. All commonly changed settings are kept in the header file.
+
+Use this version with:
+
+```text
+-c stk500v2
+```
+
+<br clear="left">
+
+## FDxboot 3.80 STK500v1
+
+<img src="img/FDxboot_3.80_STK500v1.png" alt="FDxboot 3.80 STK500v1 speed test" width="500" align="left">
+
+FDxboot 3.80 provides STK500v1 compatibility in a universal 2 KiB build. It is a practical option when the host software or existing workflow already uses STK500v1.
+
+It shares the same simplified configuration approach as the other universal versions, so the target MCU and serial settings can be changed from the header file.
+
+Use this version with:
+
+```text
+-c stk500v1
+```
+
+<br clear="left">
+
+## More Speed Results
+Speeds are decimal kB/s. Results may vary with the MCU, Flash page size, baud rate, USB-to-serial adapter, operating system, and test-file size. The top advertised speed tests are done using 2Mbps with the CH340G chip. 
+
+
+### 1 Mbaud Speed Records
+
+| Firmware | Test MCU | Write | Read |
+| :--- | :--- | ---: | ---: |
+| **FDxboot 1.7 AVR109** | ATmega16 | **22.38 kB/s** | **31.14 kB/s** |
+| **FDxboot 2.10 STK500v2** | ATmega16 | **21.70 kB/s** | **25.58 kB/s** |
+| **FDxboot 3.x STK500v1** | ATmega16 | **24.70 kB/s** | **27.55 kB/s** |
+| **FDxboot 1.7 AVR109** | ATmega128 | **40.17 kB/s** | **56.67 kB/s** |
+| **FDxboot 2.10 STK500v2** | ATmega128 | **34.50 kB/s** | **39.18 kB/s** |
+| **FDxboot 3.x STK500v1** | ATmega128 | **36.90 kB/s** | **41.22 kB/s** |
+
+
+## Basic Setup
+
+1. Choose the protocol version that matches the AVRDUDE programmer option you plan to use.
+2. Open `FDxbootREG.h` and select the MCU memory group, `F_CPU`, bootloader size, and baud-rate number.
+3. Compile the bootloader for the target MCU and the correct boot-section address.
+4. Program the bootloader with an external programmer.
+5. Set the BOOTSZ and BOOTRST fuses to match the selected bootloader size.
+6. Protect the boot section with the appropriate lock bits after testing.
+7. Connect the MCU UART to a USB-to-serial adapter and upload the application with AVRDUDE.
+
+## AVRDUDE Examples
+
+Replace the MCU, baud rate, COM port, and filename with the values used by your hardware.
+
+### AVR109
+
+```text
+avrdude.exe -c avr109 -p m128 -b 1000000 -P COM3 -U flash:w:"new.hex":i
+```
+
+### STK500v2
+
+```text
+avrdude.exe -c stk500v2 -p m128 -b 1000000 -P COM3 -U flash:w:"new.hex":i
+```
+
+### STK500v1
+
+```text
+avrdude.exe -c stk500v1 -p m128 -b 1000000 -P COM3 -U flash:w:"new.hex":i
+```
+
+## Reliability Notes
+
+High serial speeds require a stable MCU clock, a solid ground connection, short UART wiring, and a reliable USB-to-serial adapter. Direct motherboard USB ports are generally preferable to busy hubs. When troubleshooting, first reduce the baud rate and verify that the firmware clock setting matches the actual MCU clock.
+
+A successful write does not automatically confirm that the reverse UART direction is equally reliable. Verify both programming and readback when testing new hardware.
+
+## Why FDxboot
+
+A bootloader is used repeatedly throughout firmware development, so transfer speed and predictable behavior have a direct effect on the development cycle. FDxboot focuses on reducing upload time while keeping the source compact, configurable, and suitable for a wide range of AVR projects.
+
+## Buy Me a Coffee
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/flyandance?country.x=US&locale.x=en_US)
-
